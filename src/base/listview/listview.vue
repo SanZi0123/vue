@@ -19,6 +19,7 @@
         </ul>
       </li>
     </ul>
+    <div class="tit-fix" ref="titfix">{{fixTit}}</div>
     <div
       class="shortcut"
       @touchstart.stop.prevent="onTouchStart"
@@ -41,14 +42,16 @@ import Scroll from "@/base/scroll/scroll";
 import Loading from "@/base/loading/loading";
 import { getData } from "@/common/js/dom"; //设置获取dom属性
 
-const LETTER_HEIGHT = 21;
+const LETTER_HEIGHT = 21; //字母导航高度
+const TITLE_HEIGHT = 23; //标题高度
 
 export default {
   data() {
     return {
       scrollY: -1, //滑动的Y轴距离
       probeType: 3, //bette-scroll滑动
-      currentIndex: 0 //字母索引
+      currentIndex: 0, //字母索引
+      diff: -1 //标题距离
     };
   },
   created() {
@@ -67,6 +70,14 @@ export default {
       return this.data.map(group => {
         return group.title.substr(0, 1);
       });
+    },
+    fixTit() {
+      if (this.scrollY >= -5) {
+        return "";
+      }
+      return this.data[this.currentIndex]
+        ? this.data[this.currentIndex].title
+        : "";
     }
   },
   methods: {
@@ -134,8 +145,22 @@ export default {
         if (-newY >= heigth1 && -newY < height2) {
           // console.log(i,"我是index");
           this.currentIndex = i;
+          // 下一个距顶部距离
+          this.diff = height2 + newY;
+          return;
         }
       }
+    },
+    // 监听滑动title距顶部距离
+    diff(newVal) {
+      let fixTop =
+        this.diff && this.diff < TITLE_HEIGHT ? newVal - TITLE_HEIGHT : 0;
+      // console.log(fixTop);
+      if (this.fixTop === fixTop) {
+        return;
+      }
+      this.fixTop = fixTop;
+      this.$refs.titfix.style.transform = `translate3d(0,${fixTop}px,0)`;
     }
   },
   components: {
@@ -148,14 +173,14 @@ export default {
 .list-view {
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 0;
+  padding: 2px 0;
   h3 {
     width: 100%;
     box-sizing: border-box;
     padding: 5px 10px;
     text-align: left;
     color: #666;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #eee;
     border-radius: 10px;
   }
   .group-item {
@@ -188,6 +213,20 @@ export default {
     .current {
       color: orangered;
     }
+  }
+  .tit-fix {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    font-weight: bold;
+    box-sizing: border-box;
+    line-height: 34px;
+    padding-left: 10px;
+    text-align: left;
+    color: #666;
+    font-size: 19px;
+    background-color: #eee;
+    border-radius: 10px;
   }
 }
 </style>

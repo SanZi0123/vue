@@ -36,10 +36,12 @@ export default {
       if (!this.$refs.wrapper) {
         return;
       }
+      // 实例化scroll组件
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click
       });
+      // 像调用者传递滑动数据
       if (this.listenScroll) {
         let me = this;
         this.scroll.on("scroll", pos => {

@@ -4,6 +4,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+export const Home = {
+  path: '/',
+  name: 'Home',
+  meta: {
+    title: '推荐'
+  },
+  component: () => import('@/components/recommend/recommend')
+}
 export const recommend = {
   path: '/recommend',
   name: 'recommend',
@@ -39,6 +47,7 @@ export const search = {
 
 export default new Router({
   routes: [
+    Home,
     recommend,
     singer,
     rank,
