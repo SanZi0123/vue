@@ -1,6 +1,6 @@
 <template>
   <transition name="slide">
-    <music-list :title="title" :avatar="backgroundImg" :songs="songs"></music-list>
+    <music-list :title="title" :bKImg="backgroundImg" :songs="songs"></music-list>
   </transition>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
     };
   },
   created() {
-    console.log(this.getSinger, "这是vuex的数据");
+    // console.log(this.getSinger, "这是vuex的数据");
     this._getDetail();
   },
   methods: {

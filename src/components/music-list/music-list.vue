@@ -1,19 +1,38 @@
 <template>
   <div id="music-list">
-    <div class="back" @click="backSinger"><</div>
-    <h1 class="title">{{title}}</h1>
-    <div class="avatar" :style="backgroundImg"></div>
-    <div class="songs"></div>
+    <div>
+      <div class="back" @click="backSinger"><</div>
+      <h1 class="title">{{title}}</h1>
+      <div class="avatar" :style="backgroundImg"></div>
+    </div>
+    <scroll
+      :data="songs"
+      :probe-type="probeType"
+      :listenScroll="listenScroll"
+      @scroll="scroll"
+      class="list"
+    >
+      <div class="songsBox">
+        <song-list :title="title" :bKImg="bKImg" :songs="songs"></song-list>
+      </div>
+    </scroll>
   </div>
 </template>
 <script>
+import SongList from "@/base/song-list/song-list";
+import Scroll from "@/base/scroll/scroll";
 export default {
+  data() {
+    return {
+      scrollY: 0
+    };
+  },
   props: {
     title: {
       type: String,
       default: ""
     },
-    avatar: {
+    bKImg: {
       type: String,
       default: ""
     },
@@ -22,15 +41,26 @@ export default {
       default: []
     }
   },
+  created() {
+    this.probeType = 3;
+    this.listenScroll = true;
+  },
   methods: {
     backSinger() {
       this.$router.push("/singer");
+    },
+    scroll(pos) {
+      this.scrollY = pos.y;
     }
   },
   computed: {
     backgroundImg() {
-      return `background-image:url(${this.avatar})`;
+      return `background-image:url(${this.bKImg})`;
     }
+  },
+  components: {
+    SongList,
+    Scroll
   }
 };
 </script>
@@ -62,6 +92,16 @@ export default {
     padding-top: 70%;
     background-repeat: no-repeat;
     background-size: 100%;
+  }
+  .list {
+    position: fixed;
+    width: 100%;
+    top: 295px;
+    bottom: 0;
+    overflow: hidden;
+    .songsBox {
+      padding: 10px 25px 15px;
+    }
   }
 }
 </style>
