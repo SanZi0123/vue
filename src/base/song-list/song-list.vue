@@ -46,15 +46,17 @@ export default {
     line-height: 1.5rem;
     .songDT {
       width: 100%;
+      height: 1.5rem;
       overflow: hidden;
       font-size: 1rem;
       color: #000;
     }
     .songDB {
       width: 100%;
+      height: 1.5rem;
       overflow: hidden;
       font-size: 0.7rem;
-      color: #666;
+      color: #555;
     }
   }
 }
