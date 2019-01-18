@@ -1,4 +1,5 @@
 <template>
+  <!-- 歌手歌曲列表 -->
   <div class="songs">
     <ul>
       <li v-for="song in songs" :key="song.index">

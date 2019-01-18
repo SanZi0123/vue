@@ -1,10 +1,13 @@
 <template>
+  <!-- 歌手详情页 -->
   <div id="music-list">
+    <!-- 上边图片部分 -->
     <div>
       <div class="back" @click="backSinger"><</div>
       <h1 class="title">{{title}}</h1>
       <div class="avatar" :style="backgroundImg"></div>
     </div>
+    <!-- 下边歌曲列表部分 -->
     <scroll
       :data="songs"
       :probe-type="probeType"
@@ -24,6 +27,7 @@ import Scroll from "@/base/scroll/scroll";
 export default {
   data() {
     return {
+      // Y轴滑动值
       scrollY: 0
     };
   },
@@ -42,6 +46,7 @@ export default {
     }
   },
   created() {
+    // scroll参数
     this.probeType = 3;
     this.listenScroll = true;
   },
@@ -49,6 +54,7 @@ export default {
     backSinger() {
       this.$router.push("/singer");
     },
+    // scroll传过来的移动值
     scroll(pos) {
       this.scrollY = pos.y;
     }
