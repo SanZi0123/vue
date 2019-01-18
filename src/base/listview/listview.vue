@@ -12,7 +12,12 @@
       <li v-for="group in data" :key="group.index" ref="listGorup">
         <h3>{{group.title}}</h3>
         <ul>
-          <li class="group-item" v-for="item in group.items" :key="item.index">
+          <li
+            @click="selectItem(item)"
+            class="group-item"
+            v-for="item in group.items"
+            :key="item.index"
+          >
             <img v-lazy="item.avatar">
             <span>{{item.name}}</span>
           </li>
@@ -81,6 +86,10 @@ export default {
     }
   },
   methods: {
+    // 点击抛出的数据
+    selectItem(item) {
+      this.$emit("select", item);
+    },
     // 左侧字母点击事件
     onTouchStart(e) {
       // 获取点击索引
@@ -217,7 +226,7 @@ export default {
   .tit-fix {
     position: absolute;
     width: 100%;
-    top: 0;
+    top: -2px;
     font-weight: bold;
     box-sizing: border-box;
     line-height: 34px;

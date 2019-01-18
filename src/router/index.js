@@ -3,54 +3,64 @@ import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
-
-export const Home = {
-  path: '/',
-  name: 'Home',
-  meta: {
-    title: '推荐'
-  },
-  component: () => import('@/components/recommend/recommend')
+// 推荐页
+const Recommend = (resolve) => {
+  import('@/components/recommend/recommend').then((module) => {
+    resolve(module)
+  })
 }
-export const recommend = {
-  path: '/recommend',
-  name: 'recommend',
-  meta: {
-    title: '推荐'
-  },
-  component: () => import('@/components/recommend/recommend')
+// 歌手页
+const singer = (resolve) => {
+  import('@/components/singer/singer').then((module) => {
+    resolve(module)
+  })
 }
-export const singer = {
-  path: '/singer',
-  name: 'singer',
-  meta: {
-    title: '推荐'
-  },
-  component: () => import('@/components/singer/singer')
+// 歌手详情页
+const SingerDetail = (resolve) => {
+  import('@/components/singer-detail/singerDetail').then((module) => {
+    resolve(module)
+  })
 }
-export const rank = {
-  path: '/rank',
-  name: 'rank',
-  meta: {
-    title: '排行'
-  },
-  component: () => import('@/components/rank/rank')
+// 排行榜
+const Rank = (resolve) => {
+  import('@/components/rank/rank').then((module) => {
+    resolve(module)
+  })
 }
-export const search = {
-  path: '/search',
-  name: 'search',
-  meta: {
-    title: '搜索'
-  },
-  component: () => import('@/components/search/search')
+// 搜索页
+const Search = (resolve) => {
+  import('@/components/search/search').then((module) => {
+    resolve(module)
+  })
 }
 
 export default new Router({
   routes: [
-    Home,
-    recommend,
-    singer,
-    rank,
-    search
+    {
+      path: '/',
+      redirect: '/recommend'
+    },
+    {
+      path: '/recommend',
+      component: Recommend
+    },
+    {
+      path: '/singer',
+      component: singer,
+      children: [
+        {
+          path: ':id',
+          component: SingerDetail
+        }
+      ]
+    },
+    {
+      path: '/rank',
+      component: Rank
+    },
+    {
+      path: '/search',
+      component: Search
+    }
   ]
 })

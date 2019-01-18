@@ -1,12 +1,16 @@
 <template>
   <!-- 歌手 -->
-  <list-view class="singer" :data="singerList"></list-view>
+  <div>
+    <list-view class="singer" @select="selectSinger" :data="singerList"></list-view>
+    <router-view></router-view>
+  </div>
 </template>
 <script>
 import { getSingerList } from "@/api/singer"; //歌手接口
 import { ERR_OK } from "@/api/config";
 import Singer from "@/common/js/singer";
 import ListView from "@/base/listview/listview";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 const HOT_NAME = "热门";
 const HOT_SINGER_LEN = "10";
@@ -20,7 +24,18 @@ export default {
   created() {
     this._getSingerList();
   },
+  // 引入vuex数据
+  // ...mapMutations(["setSinger"]),
+  ...mapActions(["setSingers"]),
   methods: {
+    // 列表传过来的数据
+    selectSinger(singer) {
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      });
+      // actions更改的数据
+      this.$store.dispatch("setSingers", singer);
+    },
     // 获取歌手列表
     _getSingerList() {
       getSingerList().then(res => {
